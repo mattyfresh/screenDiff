@@ -14,8 +14,7 @@
   "author": "Matthew Padich",
   "license": "ISC",
   "dependencies": {
-    "blink-diff": "^1.0.12",
-    "request-promise": "^3.0.0"
+    "blink-diff": "^1.0.12"
   },
   "devDependencies": {
     "node-babel": "^0.1.2"

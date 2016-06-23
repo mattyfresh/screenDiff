@@ -1,5 +1,4 @@
 const fs = require('fs');
-const rp = require('request-promise');
 const BlinkDiff = require('blink-diff');
 const WebPageTest = require('./webpagetest');
 const config = require('./config.js');
