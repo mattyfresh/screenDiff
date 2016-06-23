@@ -21,7 +21,7 @@ const doImageDiff = (imageA, imageB) => {
     threshold:       0.01, // 1% threshold, may need to change this later but, I would think a low level of leniency makes more sense
     outputMaskRed:   0, // outputMask(s) change the color of the diff
     outputMaskBlue:  255,
-    imageOutputPath: 'results/test-foo.png',
+    imageOutputPath: 'results/test.png',
   });
 
   // do something with the diff results
@@ -65,7 +65,7 @@ wpt.getHistory(3, {filter: 'elitedaily.com'}, (err, data) => {
       var imgTwo = data[1].img;
 
       // write both of the files
-      Promise.all([writeFilePromise(imgOne, 'one'), writeFilePromise(imgTwo, 'two')]);
+      return Promise.all([writeFilePromise(imgOne, 'one'), writeFilePromise(imgTwo, 'two')]);
     })
     .then(doImageDiff)
     .catch((e) => {
