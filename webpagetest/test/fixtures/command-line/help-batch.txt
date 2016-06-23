@@ -1,0 +1,9 @@
+
+  Usage: batch [options] <file>
+
+  run commands in batch, i.e. one command per line from <file> in parallel
+
+  Options:
+
+    -h, --help  output usage information
+

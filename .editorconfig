@@ -1,0 +1,54 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = LF
+trim_trailing_whitespace = true
+
+# PHP http://make.wordpress.org/core/handbook/coding-standards/php/
+[*.php]
+indent_style = tab
+tab_width = 4
+indent_size = 4
+insert_final_newline = true
+
+# html is not minified so reduce character output by using real tabs
+# use indent size 4 for parity with PHP
+[*.{html,xml}]
+indent_style = tab
+tab_width = 2
+indent_size = 2
+
+[*.{hbs,mustache}]
+indent_style = tab
+tab_width = 2
+indent_size = 2
+
+# shouldn't be editing css anyway
+[*.css]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# sass-lint standards
+[*.{sass,scss}]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# coffeelint standards
+[*.coffee]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# jshint standards
+[*.{js,json}]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+
+# yaml configs
+[*.yml]
+indent_style = space
+indent_size = 2

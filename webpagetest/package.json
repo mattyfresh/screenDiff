@@ -1,0 +1,68 @@
+{
+  "name": "webpagetest",
+  "version": "0.3.4",
+  "description": "WebPageTest API wrapper for NodeJS",
+  "author": {
+    "name": "Marcel Duran",
+    "email": "github@marcelduran.com",
+    "url": "http://github.com/marcelduran"
+  },
+  "homepage": "http://github.com/marcelduran/webpagetest-api",
+  "keywords": [
+    "webpagetest",
+    "api",
+    "performance",
+    "test",
+    "browser"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/marcelduran/webpagetest-api.git"
+  },
+  "bugs": {
+    "url": "http://github.com/marcelduran/webpagetest-api/issues"
+  },
+  "main": "lib/webpagetest.js",
+  "bin": {
+    "webpagetest": "bin/webpagetest"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -R spec test/*-test.js"
+  },
+  "engines": {
+    "node": ">=0.10.1"
+  },
+  "dependencies": {
+    "commander": "^2.7.1",
+    "csv": "^0.4.1",
+    "entities": "^1.1.1",
+    "mocha": "^2.2.4",
+    "xml2js": "^0.4.6"
+  },
+  "devDependencies": {
+    "nock": "~1.5.0"
+  },
+  "gitHead": "55dff8e5c690e4e6e1e5ed5c6a1312340eb280d2",
+  "_id": "webpagetest@0.3.4",
+  "_shasum": "af0d74c5d44bbc0456601d02e0a4bcd4785b1182",
+  "_from": "webpagetest@latest",
+  "_npmVersion": "2.10.1",
+  "_nodeVersion": "0.12.4",
+  "_npmUser": {
+    "name": "marcelduran",
+    "email": "marcelduran@gmail.com"
+  },
+  "dist": {
+    "shasum": "af0d74c5d44bbc0456601d02e0a4bcd4785b1182",
+    "tarball": "https://registry.npmjs.org/webpagetest/-/webpagetest-0.3.4.tgz"
+  },
+  "maintainers": [
+    {
+      "name": "marcelduran",
+      "email": "marcelduran@gmail.com"
+    }
+  ],
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/webpagetest/-/webpagetest-0.3.4.tgz"
+}

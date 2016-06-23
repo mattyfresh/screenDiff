@@ -1,0 +1,10 @@
+
+  Usage: testers [options]
+
+  list testers status and details
+
+  Options:
+
+    -h, --help          output usage information
+    -e, --request <id>  echo request ID, useful to track asynchronous requests
+
