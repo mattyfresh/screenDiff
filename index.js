@@ -26,12 +26,14 @@ const doImageDiff = (imageA, imageB) => {
 
   // do something with the diff results
   diff.run( (err, result) => {
+
     if (err) {
-      console.log(err + 'THIS IS WHERE THE ERRRR IS');
+      return Promise.reject(err);
     }
 
     console.log(diff.hasPassed(result.code) ? 'Passed' : 'Failed');
     console.log('Found ' + result.differences + ' differences.');
+    return Promise.resolve();
   });
 };
 
@@ -57,6 +59,8 @@ wpt.getHistory(3, {filter: 'elitedaily.com'}, (err, data) => {
   var idTwo = dateTwo[0]['Test ID'];
 
   // async get both of the screenshots
+  // @TODO these are just hardcoded for now, until we can get test ID's that will
+  // definitely have PNG's associated with them
   var screenShots = Promise.all([getScreenshotPromise('160622_BB_2NGT'), getScreenshotPromise('160622_BB_2NGT')])
 
     // take the screenshots and save them locally once both screenshots come back
