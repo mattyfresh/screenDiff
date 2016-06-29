@@ -1,14 +1,19 @@
 const fs = require('fs');
 const BlinkDiff = require('blink-diff');
-const WebPageTest = require('./webpagetest');
-const config = require('./config.js');
-const API_KEY = config.API_KEY;
+const promises = require('./promises.js');
+const wpt = require('./wpt.js');
+const numberOfDaysInHistory = 7;
 
-// first arg will only change if you have your own private instance as far as I can tell
-const wpt = new WebPageTest('www.webpagetest.org', API_KEY);
+// Example: node index.js '6/29' '6/30'
+const firstDate = process.argv[2];
+const secondDate = process.argv[3];
 
 /**
- * do the image diffing
+ * doImageDiff
+ *
+ * @param {Buffer} imageA
+ * @param {Buffer} imageB
+ * @return {Promise}
  */
 const doImageDiff = (imageA, imageB) => {
 
@@ -37,30 +42,17 @@ const doImageDiff = (imageA, imageB) => {
 };
 
 
-wpt.getHistory(3, {filter: 'elitedaily.com'}, (err, data) => {
-  if (err) throw err;
-
-  // get all the tests with a certain location/label
-  var filteredByLocation = data.filter((testData) => {
-    return testData['Location'] === 'Virginia USA - EC2  - Chrome - Cable' && testData['Label'] === 'HomePage-Virginia';
-  });
-
-  // get date one
-  var dateOne = filteredByLocation.filter((testData) => {
-    return testData['Date/Time'].indexOf('6/23') !== -1;
-  });
-  var idOne = dateOne[0]['Test ID'];
-
-  // get date two
-  var dateTwo = filteredByLocation.filter((testData) => {
-    return testData['Date/Time'].indexOf('6/23') !== -1;
-  });
-  var idTwo = dateTwo[0]['Test ID'];
-
+/**
+ * getScreenshots
+ *
+ * @param {String} idOne
+ * @param {String} idTwo
+ */
+const getScreenshots = (idOne, idTwo) => {
   // async get both of the screenshots
   // @TODO these are just hardcoded for now, until we can get test ID's that will
   // definitely have PNG's associated with them
-  var screenShots = Promise.all([getScreenshotPromise('160622_BB_2NGT'), getScreenshotPromise('160622_BB_2NGT')])
+  var screenShots = Promise.all([promises.getScreenshot(idOne), promises.getScreenshot(idTwo)])
 
     // take the screenshots and save them locally once both screenshots come back
     .then((data) => {
@@ -68,42 +60,50 @@ wpt.getHistory(3, {filter: 'elitedaily.com'}, (err, data) => {
       var imgTwo = data[1].img;
 
       // write both of the files
-      return Promise.all([writeFilePromise(imgOne, 'one'), writeFilePromise(imgTwo, 'two')]);
+      return Promise.all([promises.writeFile(imgOne, 'one'), promises.writeFile(imgTwo, 'two')]);
     })
     .then(doImageDiff)
     .catch((e) => {
       console.log(e);
     });
-});
+};
 
 
-// promise version
-function getScreenshotPromise(testId) {
-  return new Promise((resolve, reject) => {
-    wpt.getScreenshotImage(testId, {fullResolution: true}, (err, img, info) => {
+/**
+ * getTestByDate
+ *
+ * @param {String} firstDate
+ * @param {String} secondDate
+ */
+const getTestByDate = (firstDate, secondDate) => {
 
-      // reject the promise with the error
-      if (err) {
-        return reject(err);
-      }
+  // first ARG here is number of days to go back into the search history, going to default to 7 days
+  // @NB had to fork the webpagetest repo to add this filter param in for a URL
+  wpt.getHistory(numberOfDaysInHistory, {filter: 'elitedaily.com'}, (err, data) => {
+    if (err) {
+      console.log(err, ': No data found from elitedaily.com');
+    }
 
-      // otherwise return the screenshot
-      resolve({img: img, info: info});
+    // get all the tests that will have pngs to diff
+    var filteredByLocation = data.filter((testData) => {
+      return testData['Label'] === 'Article-ImageDiff-NoAds-Mobile';
     });
-  });
-}
 
-
-function writeFilePromise(img, label) {
-  return new Promise((resolve, reject) => {
-    fs.writeFile('./images/test-' + label + '.png', img, 'binary', (err) => {
-      if (err)
-        return reject(err);
-      else {
-
-        // file was written to fs
-        resolve('done!')
-      }
+    // get date one
+    var dateOne = filteredByLocation.filter((testData) => {
+      return testData['Date/Time'].indexOf(firstDate) !== -1;
     });
+    var idOne = dateOne[0]['Test ID'];
+
+    // get date two
+    var dateTwo = filteredByLocation.filter((testData) => {
+      return testData['Date/Time'].indexOf(secondDate) !== -1;
+    });
+    var idTwo = dateTwo[0]['Test ID'];
+
+    getScreenshots(idOne, idTwo);
   });
-}
+};
+
+// kick off
+getTestByDate(firstDate, secondDate);
