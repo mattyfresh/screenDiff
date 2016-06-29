@@ -22,7 +22,7 @@ promises.getScreenshot = (testId) => {
       return resolve({img: img, info: info});
     });
   });
-}
+};
 
 
 /**
@@ -44,7 +44,7 @@ promises.writeFile = (img, label) => {
       }
     });
   });
-}
+};
 
 
 module.exports = promises;
