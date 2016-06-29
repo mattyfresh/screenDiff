@@ -5,8 +5,8 @@ const wpt = require('./wpt.js');
 const numberOfDaysInHistory = 7;
 
 // Example: node index.js '6/29' '6/30'
-const firstDate = process.argv[2];
-const secondDate = process.argv[3];
+const firstDate = process.argv[2] ? process.argv[2] : '6/28';
+const secondDate = process.argv[3] ? process.argv[3] : '6/29';
 
 /**
  * doImageDiff
